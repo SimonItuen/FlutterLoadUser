@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:load/helper/colors.dart';
 import 'package:load/screens/Login_screen/Login.dart';
 import 'package:load/screens/verification_screen/verification.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Signscreen extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class Signscreen extends StatefulWidget {
 }
 
 class _SignscreenState extends State<Signscreen> {
+  PageController controller=PageController(initialPage: 1);
   @override
   Widget build(BuildContext context) {
         var width=MediaQuery.of(context).size.width;
@@ -32,14 +34,48 @@ class _SignscreenState extends State<Signscreen> {
           child: Column(
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: height/20,),
+              Container(
+                width: width,
+                height: height/1.8,
+                //color: Colors.black,
+                child: PageView(
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(height: height/20,),
               Image.asset('assets/Rectangle 203.png',height: height/2.5,),
               Text("Title Two",
                                       style: TextStyle(fontSize: 18,fontFamily: 'OpenSans-Regular',color: Colors.white),),
               SizedBox(height: height/150,),
               Text("Lorem ipsum dolour sadipscing elitr, sed diam \nnonumy eirmod tempor invidunt ut labore et dolore",textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 14,fontFamily: 'OpenSans-Regular',color: Colors.white),),
-              SizedBox(height: height/20,),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SmoothPageIndicator(
+                controller: controller,
+                count:  3,
+                axisDirection: Axis.horizontal,
+                effect:  SlideEffect(
+                  spacing:  8.0,
+                  radius:  81.0,
+                  dotWidth:  16.0,
+                  dotHeight:  4.0,
+                  paintStyle:  PaintingStyle.fill,
+                  strokeWidth:  1.5,
+                  dotColor:  Mycolors.white.withOpacity(0.3),
+                  activeDotColor:  Mycolors.white
+                ),
+              )
+
+                    ],
+                  ),
+              SizedBox(height: height/30,),
               Expanded(child: Container(
                 padding: EdgeInsets.only(left: 14,right: 11,top: 20),
                 width: width,

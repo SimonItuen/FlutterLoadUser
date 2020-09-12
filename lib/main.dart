@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
         primaryTextTheme: TextTheme(
           headline1: TextStyle(fontSize: 22,fontFamily: 'OpenSans-Regular',color: Mycolors.dark),
           headline2: TextStyle(fontSize: 32,fontFamily: 'OpenSans-Regular',color: Mycolors.dark),
+          headline6: TextStyle(fontSize: 117,fontFamily: 'OpenSans-Regular',color: Mycolors.dark),
+          headline4: TextStyle(fontSize: 22,fontFamily: 'OpenSans-Semibold',color: Mycolors.dark),
+          headline5: TextStyle(fontSize: 32,fontFamily: 'OpenSans-Semibold',color: Mycolors.dark),
           headline3: TextStyle(fontSize: 16,fontFamily: 'OpenSans-Semibold',color: Colors.white),
         ),
         primarySwatch: Colors.blue,
