@@ -4,6 +4,7 @@ import 'package:load/helper/colors.dart';
 import 'package:load/screens/Home_screen/Home.dart';
 import 'package:load/screens/Login_screen/Login.dart';
 import 'package:load/screens/Reset2_password_screen/reset2_password.dart';
+import 'package:load/widgets/backdrop_bg.dart';
 
 class Verification3screen extends StatefulWidget {
   @override
@@ -11,6 +12,18 @@ class Verification3screen extends StatefulWidget {
 }
 
 class _Verification3screenState extends State<Verification3screen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
         var width=MediaQuery.of(context).size.width;
@@ -31,10 +44,7 @@ class _Verification3screenState extends State<Verification3screen> {
         color: Colors.white,
         child: Stack(
           children: [
-            Container(
-              width: width,
-              height: height/5.6,
-              child: Image.asset('assets/curve.png',fit: BoxFit.fill,)),
+            BackdropBg(),
                Container(
                   width: width,
                   height: height/50,
@@ -52,7 +62,7 @@ class _Verification3screenState extends State<Verification3screen> {
                     Container(
                       width: width,
                       padding: EdgeInsets.only(top: 20),
-                      height: height/2.5,
+                      height: height/2.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
@@ -264,7 +274,7 @@ class _Verification3screenState extends State<Verification3screen> {
 
                         ),
                         child: Center(
-                          child:  Text("Verify",
+                          child:  Text("VERIFY",
                                           style: TextStyle(fontSize: 16,fontFamily: 'OpenSans-Semibold',color: Colors.white),),
                         ),
                       ),

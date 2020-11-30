@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:load/helper/colors.dart';
 
 class Speacialdeal extends StatefulWidget {
@@ -7,6 +8,18 @@ class Speacialdeal extends StatefulWidget {
 }
 
 class _SpeacialdealState extends State<Speacialdeal> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
      var width=MediaQuery.of(context).size.width;
@@ -72,7 +85,7 @@ class _SpeacialdealState extends State<Speacialdeal> {
             right: width/40,
             top: height/20,
             child: FlatButton(
-              child: Icon(Icons.cancel,size: 35,color: Colors.white,),
+              child: Icon(Icons.cancel,size: 45,color: Colors.white,),
               onPressed: (){
 Navigator.pop(context);
             },),

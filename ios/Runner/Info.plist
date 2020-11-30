@@ -19,6 +19,16 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your storage to pick an image</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your storage to pick an image</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We need access to your storage to pick an image</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>whatsapp</string>
+    </array>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

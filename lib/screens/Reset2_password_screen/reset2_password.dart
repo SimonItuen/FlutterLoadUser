@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:load/helper/colors.dart';
 import 'package:load/screens/Home_screen/Home.dart';
 import 'package:load/screens/Verification2_screen/Verification2.dart';
+import 'package:load/widgets/backdrop_bg.dart';
 
 class Resetscreen2 extends StatefulWidget {
   @override
@@ -12,6 +13,18 @@ class Resetscreen2 extends StatefulWidget {
 class _Resetscreen2State extends State<Resetscreen2> {
   var visability=false;
   var visability1=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
         var width=MediaQuery.of(context).size.width;
@@ -32,10 +45,7 @@ class _Resetscreen2State extends State<Resetscreen2> {
         color: Colors.white,
         child: Stack(
           children: [
-            Container(
-              width: width,
-              height: height/5.6,
-              child: Image.asset('assets/curve.png',fit: BoxFit.fill,)),
+            BackdropBg(),
                Container(
                   width: width,
                   height: height/50,
