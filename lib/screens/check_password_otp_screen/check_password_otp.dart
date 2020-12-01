@@ -167,7 +167,6 @@ class _CheckOtpPasswordscreenState extends State<CheckOtpPasswordscreen> {
                                           enableActiveFill: true,
                                           errorAnimationController: errorController,
                                           onCompleted: (v) {
-                                            print("Completed");
                                             enterCode = v;
                                             setState(() {});
                                           },
@@ -274,17 +273,16 @@ class _CheckOtpPasswordscreenState extends State<CheckOtpPasswordscreen> {
     if (enterCode.length == 6) {
       UserAccountProvider _accountProvider =
           Provider.of<UserAccountProvider>(context, listen: false);
-      print(enterCode);
       setState(() {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/check-otp';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{
         'otp': enterCode,
         'api_token': _accountProvider.getTempToken,
       });
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -293,7 +291,7 @@ class _CheckOtpPasswordscreenState extends State<CheckOtpPasswordscreen> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['success'].toString() == true.toString()) {
@@ -410,11 +408,11 @@ class _CheckOtpPasswordscreenState extends State<CheckOtpPasswordscreen> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/forgot-password';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{
       'email': _accountProvider.getTempEmail,
     });
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -423,13 +421,12 @@ class _CheckOtpPasswordscreenState extends State<CheckOtpPasswordscreen> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Map<String, dynamic> map = jsonResponse['data'];
-          print(map['token'].toString());
           _accountProvider.setTempToken(map['token'].toString());
           setState(() {
             isLoading = false;

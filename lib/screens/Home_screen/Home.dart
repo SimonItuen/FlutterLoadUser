@@ -63,19 +63,15 @@ class _HomescreenState extends State<Homescreen> {
     setState(() {
       _currentIndex = index;
     });
-    print(index);
   }
 
   Future<void> initDynamicLinks() async {
     if (Provider.of<UserAccountProvider>(context, listen: false)
         .getOpenRestaurant) {
-      print(
-          'This na ${Provider.of<UserAccountProvider>(context, listen: false).getStoreId.toString()}');
       setState(() {
         isLoading = true;
       });
       await Future.delayed(Duration(seconds: 3), () {
-        print('Na mi');
         setState(() {
           isLoading = false;
         });
@@ -90,7 +86,6 @@ class _HomescreenState extends State<Homescreen> {
         onSuccess: (PendingDynamicLinkData dynamicLink) async {
       final Uri deepLink = dynamicLink?.link;
       if (deepLink != null) {
-        print('This $deepLink');
         Provider.of<UserAccountProvider>(context, listen: false)
             .setStoreId(deepLink.path.replaceAll('/', ''));
         if (!Provider.of<UserAccountProvider>(context, listen: false)
@@ -105,7 +100,6 @@ class _HomescreenState extends State<Homescreen> {
         setState(() {
           isLoading = false;
         });
-        print('Yesaiaiana');
       }
     }, onError: (OnLinkErrorException e) async {
       print('onLinkError');
@@ -117,7 +111,6 @@ class _HomescreenState extends State<Homescreen> {
     final Uri deepLink = data?.link;
 
     if (deepLink != null) {
-      print(deepLink);
       Provider.of<UserAccountProvider>(context, listen: false)
           .setStoreId(deepLink.path.replaceAll('/', ''));
       if (!Provider.of<UserAccountProvider>(context, listen: false)
@@ -794,7 +787,6 @@ class _MyDrawerState extends State<MyDrawer> {
                   await launchWhatsApp(
                       phone: _accountProvider.getHelpLine,
                       message: 'I Need Help');
-                  print(_accountProvider.getHelpLine);
                   Navigator.of(context).pop();
                 },
                 child: Container(
@@ -989,7 +981,7 @@ class _MyDrawerState extends State<MyDrawer> {
         Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/user-logout';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -999,9 +991,9 @@ class _MyDrawerState extends State<MyDrawer> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           SessionManagerUtil.clearAll();

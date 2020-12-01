@@ -267,12 +267,12 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
         Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/rewardCollectBannerwise';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{
       'api_token': _accountProvider.getAccessToken,
       'reward_id': rewardId
     });
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -281,9 +281,9 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           setState(() {

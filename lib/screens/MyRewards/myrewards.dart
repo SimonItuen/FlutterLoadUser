@@ -111,7 +111,7 @@ class _MyrewardState extends State<Myreward> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/my-rewards';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{
       'api_token':
       _accountProvider.getAccessToken
@@ -123,15 +123,15 @@ class _MyrewardState extends State<Myreward> {
             "X-Requested-With": "XMLHttpRequest"
           }, body:map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
 
           list = await iterable.map((en) => RewardModel.fromJson(en)).toList();
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

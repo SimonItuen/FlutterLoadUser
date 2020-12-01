@@ -207,7 +207,7 @@ class _TrendingListscreenState extends State<TrendingListscreen> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/trending-all-store';
-    print(url);
+
     try {
       http.Response response = await http.get(url,
           headers: {
@@ -215,14 +215,14 @@ class _TrendingListscreenState extends State<TrendingListscreen> {
             "X-Requested-With": "XMLHttpRequest"
           },);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
           list = await iterable.map((en) => TrendingModel.fromJson(en)).toList();
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

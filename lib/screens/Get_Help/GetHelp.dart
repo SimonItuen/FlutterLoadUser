@@ -90,7 +90,7 @@ class _GetHelpState extends State<GetHelp> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/get-help';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -100,9 +100,9 @@ class _GetHelpState extends State<GetHelp> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           getHelp = jsonResponse['data']
@@ -113,7 +113,7 @@ class _GetHelpState extends State<GetHelp> {
               .replaceAll(']', '');
           SessionManagerUtil.putString('getHelp', getHelp);
 
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

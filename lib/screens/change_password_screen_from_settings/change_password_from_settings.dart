@@ -419,14 +419,14 @@ class _ChangePasswordFromSettingState extends State<ChangePasswordFromSetting> {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/change-password';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{
         'old_password': passwordController.text,
         'new_password': newPasswordController.text,
         'confirm_pass': confirmPasswordController.text,
         'api_token': _accountProvider.getAccessToken,
       });
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -435,7 +435,7 @@ class _ChangePasswordFromSettingState extends State<ChangePasswordFromSetting> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['success'].toString() == 'true') {

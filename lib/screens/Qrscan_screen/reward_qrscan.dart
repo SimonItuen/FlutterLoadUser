@@ -67,7 +67,6 @@ class _RewardQrscanState extends State<RewardQrscan> {
 
     final encrypted = encrypter.encrypt(json, iv: iv);
     /*final decrypted = encrypter.decrypt(encrypted, iv: iv);*/
-    print(encrypted.base64);
 
 
     /*"data": {

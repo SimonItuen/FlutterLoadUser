@@ -137,7 +137,7 @@ class _PartnersState extends State<Partners> {
       isCategoryLoading = true;
     });
     String url = BaseUrl.baseUrl + '/our-partner';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -147,16 +147,16 @@ class _PartnersState extends State<Partners> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
 
           list =
               await iterable.map((en) => PartnersModel.fromJson(en)).toList();
-          print(jsonResponse);
+
           setState(() {
             isCategoryLoading = false;
           });
@@ -241,7 +241,7 @@ class _PartnersState extends State<Partners> {
     });
 
     String url = BaseUrl.baseUrl + '/partner-wise-store';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{
       'category_id':
           Provider.of<UserAccountProvider>(context, listen: false).getCategoryId
@@ -254,16 +254,16 @@ class _PartnersState extends State<Partners> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
 
           listTwo =
               await iterable.map((en) => CategoryStoreModel.fromJson(en)).toList();
-          print(jsonResponse);
+
           setState(() {
             isCategoryPartnersLoading = false;
           });

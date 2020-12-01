@@ -39,7 +39,6 @@ class _SignscreenState extends State<Signscreen> {
       if (deepLink != null) {
         print('deepLink');
         storeId = deepLink.path.replaceAll('/', '');
-        print(storeId);
         Provider.of<UserAccountProvider>(context, listen: false)
             .setStoreId(storeId);
         Provider.of<UserAccountProvider>(context, listen: false)
@@ -56,7 +55,7 @@ class _SignscreenState extends State<Signscreen> {
 
     if (deepLink != null) {
       storeId = deepLink.path.replaceAll('/', '');
-      print(storeId);
+
       Provider.of<UserAccountProvider>(context, listen: false)
           .setStoreId(storeId);
       Provider.of<UserAccountProvider>(context, listen: false)

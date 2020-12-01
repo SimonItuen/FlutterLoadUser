@@ -26,9 +26,8 @@ class _SplashscreenState extends State<Splashscreen> {
       final Uri deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
-        print('deepLink');
         storeId = deepLink.path.replaceAll('/', '');
-        print(storeId);
+
         Provider.of<UserAccountProvider>(context, listen: false)
             .setStoreId(storeId);
         Provider.of<UserAccountProvider>(context, listen: false)
@@ -45,7 +44,7 @@ class _SplashscreenState extends State<Splashscreen> {
 
     if (deepLink != null) {
       storeId = deepLink.path.replaceAll('/', '');
-      print(storeId);
+
         Provider.of<UserAccountProvider>(context, listen: false)
             .setStoreId(storeId);
         Provider.of<UserAccountProvider>(context, listen: false)
@@ -91,7 +90,7 @@ class _SplashscreenState extends State<Splashscreen> {
 
   checkLogin() async {
     await SessionManagerUtil.getInstance();
-    print(storeId);
+
     if (SessionManagerUtil.getString('apiToken') == null ||
         SessionManagerUtil.getString('apiToken').trim().isEmpty) {
       Navigator.of(context).pushReplacementNamed(Signscreen.routeName);
@@ -112,7 +111,6 @@ class _SplashscreenState extends State<Splashscreen> {
       if (!(SessionManagerUtil.getString('points') == null) &&
           (SessionManagerUtil.getString('points').trim().isNotEmpty)) {
         model.points = SessionManagerUtil.getString('points');
-        print('Api ${model.apiToken}');
       }
       Provider.of<UserAccountProvider>(context, listen: false)
           .setUserDetails(model);

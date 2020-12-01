@@ -164,12 +164,12 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
         Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/rewardCollectBannerwise';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{
       'api_token': _accountProvider.getAccessToken,
       'reward_id': rewardId
     });
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -178,9 +178,9 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           fetchLoadRewards();
@@ -274,10 +274,10 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
     UserAccountProvider _accountProvider =
     Provider.of<UserAccountProvider>(context, listen: false);
     String url = BaseUrl.baseUrl + '/load-rewards';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -286,9 +286,9 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
@@ -296,7 +296,7 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
          List<LoadRewardModel> list =
           await iterable.map((en) => LoadRewardModel.fromJson(en)).toList();
           _accountProvider.setLoadRewards(list);
-          print(jsonResponse);
+
 
         } else {
           if (jsonResponse.toString().isNotEmpty) {

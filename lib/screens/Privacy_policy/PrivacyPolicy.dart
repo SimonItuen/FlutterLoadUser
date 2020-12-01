@@ -90,7 +90,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/get-privacy-policy';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -100,15 +100,15 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           privacyPolicy = jsonResponse['data']['content'];
           SessionManagerUtil.putString('privacyPolicy', privacyPolicy);
 
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

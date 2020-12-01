@@ -54,9 +54,7 @@ class _LoginState extends State<Login> {
           final Uri deepLink = dynamicLink?.link;
 
           if (deepLink != null) {
-            print('deepLink');
             storeId = deepLink.path.replaceAll('/', '');
-            print(storeId);
             Provider.of<UserAccountProvider>(context, listen: false)
                 .setStoreId(storeId);
             Provider.of<UserAccountProvider>(context, listen: false)
@@ -73,7 +71,6 @@ class _LoginState extends State<Login> {
 
     if (deepLink != null) {
       storeId = deepLink.path.replaceAll('/', '');
-      print(storeId);
       Provider.of<UserAccountProvider>(context, listen: false)
           .setStoreId(storeId);
       Provider.of<UserAccountProvider>(context, listen: false)
@@ -117,7 +114,6 @@ class _LoginState extends State<Login> {
     super.initState();
     initDynamicLinks();
     Future.delayed(Duration.zero, () {
-      print('Thooo ${Provider.of<UserAccountProvider>(context, listen: false).openRestaurant}');
     });
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -516,17 +512,16 @@ class _LoginState extends State<Login> {
     if (_formKey.currentState.validate()) {
       UserAccountProvider _accountProvider =
           Provider.of<UserAccountProvider>(context, listen: false);
-      print('${emailController.text}    ${passwordController.text}');
       setState(() {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/login';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{
         'email': emailController.text,
         'password': passwordController.text,
       });
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -535,16 +530,15 @@ class _LoginState extends State<Login> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
-          print('eien');
+
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['success'].toString() == 'true') {
             Map<String, dynamic> map = jsonResponse['data'];
             UserModel model = UserModel.fromJson(map);
             _accountProvider.setUserDetails(model);
             loadGetHelp();
-            print(model.name);
             SessionManagerUtil.putString('apiToken', '${model.apiToken}');
             SessionManagerUtil.putString('status', '${model.status}');
             SessionManagerUtil.putInt('id', model.id);
@@ -635,7 +629,7 @@ class _LoginState extends State<Login> {
 
   loadGetHelp() async {
     String url = BaseUrl.baseUrl + '/get-help';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -645,9 +639,9 @@ class _LoginState extends State<Login> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           String getHelp = jsonResponse['data']['phone_number'].toString();
@@ -656,7 +650,7 @@ class _LoginState extends State<Login> {
           _accountProvider.setHelpLine(getHelp);
           SessionManagerUtil.putString('getHelp', getHelp);
 
-          print(jsonResponse);
+
         } else {
           if (jsonResponse.toString().isNotEmpty) {
             final snackBar = SnackBar(

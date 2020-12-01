@@ -87,10 +87,10 @@ class _HistoryState extends State<History> {
     UserAccountProvider _accountProvider =
         Provider.of<UserAccountProvider>(context, listen: false);
     String url = BaseUrl.baseUrl + '/reward-collect-history';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -99,9 +99,9 @@ class _HistoryState extends State<History> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
@@ -109,7 +109,7 @@ class _HistoryState extends State<History> {
           list =
               await iterable.map((en) => LoadRewardModel.fromJson(en)).toList();
           _accountProvider.setLoadRewardsHistory(list);
-          print(jsonResponse);
+
           
         } else {
           if (jsonResponse.toString().isNotEmpty) {

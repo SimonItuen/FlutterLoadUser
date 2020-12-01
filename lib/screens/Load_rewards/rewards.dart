@@ -100,10 +100,10 @@ class _RewardsState extends State<Rewards> {
     UserAccountProvider _accountProvider =
         Provider.of<UserAccountProvider>(context, listen: false);
     String url = BaseUrl.baseUrl + '/load-rewards';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -112,9 +112,9 @@ class _RewardsState extends State<Rewards> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
@@ -123,7 +123,7 @@ class _RewardsState extends State<Rewards> {
               await iterable.map((en) => LoadRewardModel.fromJson(en)).toList();
           _accountProvider.setLoadRewards(list);
           await getPoints();
-          print(jsonResponse);
+
 
         } else {
           if (jsonResponse.toString().isNotEmpty) {
@@ -192,10 +192,10 @@ class _RewardsState extends State<Rewards> {
     Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/current-point';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -204,9 +204,9 @@ class _RewardsState extends State<Rewards> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
 
         if (jsonResponse['success'].toString() == 'true') {
@@ -280,10 +280,10 @@ class _RewardsState extends State<Rewards> {
     Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/my-store-load-point';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -292,9 +292,9 @@ class _RewardsState extends State<Rewards> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           _accountProvider

@@ -258,12 +258,12 @@ class _ChangeNumberState extends State<ChangeNumber> {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/change-mobile-number';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{
         'api_token': _accountProvider.getAccessToken,
         'mobile_number': controller.text,
       });
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -272,16 +272,15 @@ class _ChangeNumberState extends State<ChangeNumber> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
-          print('eien');
+
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['success'].toString() == 'true') {
             Map<String, dynamic> map = jsonResponse['data'];
             UserModel model = UserModel.fromJson(map);
             model.points= _accountProvider.getPoints;
             _accountProvider.setUserDetails(model);
-            print(model.name);
             SessionManagerUtil.putString('apiToken', '${model.apiToken}');
             SessionManagerUtil.putString('status', '${model.status}');
             SessionManagerUtil.putInt('id', model.id);

@@ -249,11 +249,11 @@ class _ResetscreenState extends State<Resetscreen> {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/forgot-password';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{
         'email': emailController.text,
       });
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -262,14 +262,13 @@ class _ResetscreenState extends State<Resetscreen> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
-          print('eien');
+
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['success'].toString() == 'true') {
             _accountProvider.setTempEmail(emailController.text);
             Map<String, dynamic> map = jsonResponse['data'];
-            print(map['token'].toString());
             _accountProvider.setTempToken(map['token'].toString());
             setState(() {
               isLoading = false;

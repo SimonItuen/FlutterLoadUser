@@ -59,7 +59,6 @@ class _QrscanState extends State<Qrscan> {
 
     final encrypted = encrypter.encrypt(json, iv: iv);
     /*final decrypted = encrypter.decrypt(encrypted, iv: iv);*/
-    print(encrypted.base64);
     /*"data": {
     "id": 48,
     "name": "raju",

@@ -118,7 +118,7 @@ class _CheckrewardState extends State<Checkreward> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/my-rewards';
-    print(url);
+
     try {
       http.Response response = await http.get(url,
           headers: {
@@ -127,15 +127,15 @@ class _CheckrewardState extends State<Checkreward> {
           },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
 
           list = await iterable.map((en) => RewardModel.fromJson(en)).toList();
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

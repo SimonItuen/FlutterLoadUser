@@ -282,9 +282,9 @@ class _SearchscreenState extends State<Searchscreen> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/search-stores';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{'store_name': keyword});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -293,15 +293,15 @@ class _SearchscreenState extends State<Searchscreen> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
 
           list = await iterable.map((en) => SearchModel.fromJson(en)).toList();
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

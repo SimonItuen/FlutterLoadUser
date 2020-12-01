@@ -50,9 +50,8 @@ class _VerificationscreenState extends State<Verificationscreen> {
           final Uri deepLink = dynamicLink?.link;
 
           if (deepLink != null) {
-            print('deepLink');
             storeId = deepLink.path.replaceAll('/', '');
-            print(storeId);
+
             Provider.of<UserAccountProvider>(context, listen: false)
                 .setStoreId(storeId);
             Provider.of<UserAccountProvider>(context, listen: false)
@@ -69,7 +68,7 @@ class _VerificationscreenState extends State<Verificationscreen> {
 
     if (deepLink != null) {
       storeId = deepLink.path.replaceAll('/', '');
-      print(storeId);
+
       Provider.of<UserAccountProvider>(context, listen: false)
           .setStoreId(storeId);
       Provider.of<UserAccountProvider>(context, listen: false)
@@ -201,7 +200,6 @@ class _VerificationscreenState extends State<Verificationscreen> {
                                           enableActiveFill: true,
                                           errorAnimationController: errorController,
                                           onCompleted: (v) {
-                                            print("Completed");
                                             enterCode = v;
                                             setState(() {});
                                           },
@@ -312,14 +310,13 @@ class _VerificationscreenState extends State<Verificationscreen> {
 
   postOTP(BuildContext context) async {
     if (enterCode.length == 4) {
-      print(enterCode);
       setState(() {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/verify-otp';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{'otp': enterCode});
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -328,7 +325,7 @@ class _VerificationscreenState extends State<Verificationscreen> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['msg'].toString() ==

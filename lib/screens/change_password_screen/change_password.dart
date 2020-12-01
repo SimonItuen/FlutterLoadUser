@@ -336,13 +336,13 @@ class _ChangePasswordState extends State<ChangePassword> {
         isLoading = true;
       });
       String url = BaseUrl.baseUrl + '/reset-password';
-      print(url);
+
       var map = convert.jsonEncode(<String, String>{
         'new_password': passwordController.text,
         'confirm_password': confirmPasswordController.text,
         'api_token': _accountProvider.getTempToken,
       });
-      print(map);
+
       try {
         http.Response response = await http.post(url,
             headers: {
@@ -351,9 +351,9 @@ class _ChangePasswordState extends State<ChangePassword> {
             },
             body: map);
 
-        print(response.body);
+
         if (response.statusCode == 200) {
-          print('eien');
+
           var jsonResponse = convert.jsonDecode(response.body);
           if (jsonResponse['success'].toString() == 'true') {
             setState(() {

@@ -483,13 +483,13 @@ class _ResturantdetailsState extends State<Resturantdetails> {
         Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/store-details';
-    print(url);
+
     var map = convert.jsonEncode(<String, String>{
       'api_token': _accountProvider.getAccessToken,
       'store_id': _accountProvider.getStoreId
     });
 
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -498,14 +498,13 @@ class _ResturantdetailsState extends State<Resturantdetails> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Map<String, dynamic> map = jsonResponse['data'];
           model = StoreModel.fromJson(map);
-          print(model.totalOrders);
           list = model.list;
           if(model.name==null.toString()){
             showDialog(
@@ -696,7 +695,6 @@ class _ResturantdetailsState extends State<Resturantdetails> {
 
   Future<void> createDynamicLink(
       String title, String description, String imgUrl, String id) async {
-    print(id);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
         uriPrefix: 'https://loadstore.page.link',
         link: Uri.parse('https://www.example.com/$id'),
@@ -716,7 +714,6 @@ class _ResturantdetailsState extends State<Resturantdetails> {
         ));
     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
     final Uri shortUrl = shortDynamicLink.shortUrl;
-    print(shortUrl.toString());
     setState(() {
       shareLink = shortUrl.toString();
     });

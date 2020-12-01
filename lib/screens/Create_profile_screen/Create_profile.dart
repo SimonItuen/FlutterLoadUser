@@ -57,9 +57,8 @@ class _CreateprofileState extends State<Createprofile> {
           final Uri deepLink = dynamicLink?.link;
 
           if (deepLink != null) {
-            print('deepLink');
             storeId = deepLink.path.replaceAll('/', '');
-            print(storeId);
+
             Provider.of<UserAccountProvider>(context, listen: false)
                 .setStoreId(storeId);
             Provider.of<UserAccountProvider>(context, listen: false)
@@ -76,7 +75,6 @@ class _CreateprofileState extends State<Createprofile> {
 
     if (deepLink != null) {
       storeId = deepLink.path.replaceAll('/', '');
-      print(storeId);
       Provider.of<UserAccountProvider>(context, listen: false)
           .setStoreId(storeId);
       Provider.of<UserAccountProvider>(context, listen: false)
@@ -539,19 +537,17 @@ class _CreateprofileState extends State<Createprofile> {
 
   postRegister(BuildContext context) async {
     if (_formKey.currentState.validate() && _image != null) {
-      print('${emailController.text}    ${passwordController.text}');
       setState(() {
         isLoading = true;
       });
       UserAccountProvider _accountProvider =
           Provider.of<UserAccountProvider>(context, listen: false);
       String url = BaseUrl.baseUrl + '/register';
-      print(url);
+
       var dio = Dio(BaseOptions(headers: {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest"
       }));
-      print('');
       List<int> imageBytes = _image.readAsBytesSync();
       String base64Image = convert.base64.encode(imageBytes);
       var params = {
@@ -561,15 +557,12 @@ class _CreateprofileState extends State<Createprofile> {
         "password": passwordController.text,
         "profile_photo": 'data:image/jpeg;base64,$base64Image'
       };
-      print(params);
       try {
         Response response = await dio.post(url, data: params);
-        print(response.data.toString());
         if (response.data['success'].toString() == true.toString()) {
           print('success');
           UserModel model = UserModel.fromJson(response.data['data']);
           _accountProvider.setUserDetails(model);
-          print(model.email);
           loadGetHelp();
           SessionManagerUtil.putString('apiToken', '${model.apiToken}');
           SessionManagerUtil.putString('status', '${model.status}');
@@ -610,7 +603,6 @@ class _CreateprofileState extends State<Createprofile> {
           isLoading = false;
         });
       } on DioError catch (e) {
-        print(e.response.toString());
         print(e.message.toString());
         setState(() {
           isLoading = false;
@@ -632,7 +624,7 @@ class _CreateprofileState extends State<Createprofile> {
 
   loadGetHelp() async {
     String url = BaseUrl.baseUrl + '/get-help';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -642,9 +634,9 @@ class _CreateprofileState extends State<Createprofile> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           String getHelp = jsonResponse['data']['phone_number']
@@ -654,7 +646,7 @@ class _CreateprofileState extends State<Createprofile> {
           _accountProvider.setHelpLine(getHelp);
           SessionManagerUtil.putString('getHelp', getHelp);
 
-          print(jsonResponse);
+
         } else {
           if (jsonResponse.toString().isNotEmpty) {
             final snackBar = SnackBar(

@@ -571,7 +571,7 @@ class _MyaccountscreenState extends State<Myaccountscreen> {
       UserAccountProvider _accountProvider =
           Provider.of<UserAccountProvider>(context, listen: false);
       String url = BaseUrl.baseUrl + '/update-profile';
-      print(url);
+
       var dio = Dio(BaseOptions(headers: {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest"
@@ -596,19 +596,15 @@ class _MyaccountscreenState extends State<Myaccountscreen> {
         };
       }
 
-      print(params);
       try {
         Response response = await dio.post(url, data: params);
-        print(response.data.toString());
         if (response.data['success'].toString() == true.toString()) {
-          print('success');
           UserModel model = UserModel.fromJson(response.data['data']);
           if (_image == null) {
             model.profileImg = _accountProvider.getProfileUrl;
           }
           model.points= _accountProvider.getPoints;
           _accountProvider.setUserDetails(model);
-          print(model.email);
           SessionManagerUtil.putString('apiToken', '${model.apiToken}');
           SessionManagerUtil.putString('status', '${model.status}');
           SessionManagerUtil.putInt('id', model.id);
@@ -658,7 +654,6 @@ class _MyaccountscreenState extends State<Myaccountscreen> {
           isLoading = false;
         });
       } on DioError catch (e) {
-        print(e.response.toString());
         print(e.message.toString());
         setState(() {
           isLoading = false;

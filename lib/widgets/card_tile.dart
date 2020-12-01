@@ -30,7 +30,6 @@ class CardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.width * 0.96667 * 0.49840;
-    print(bgColor);
     return InkWell(
         onTap: onPressed,
         child: Opacity(

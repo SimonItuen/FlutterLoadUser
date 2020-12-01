@@ -90,7 +90,7 @@ class _TermofuseState extends State<Termofuse> {
       isLoading = true;
     });
     String url = BaseUrl.baseUrl + '/get-terms-of-use';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -100,15 +100,15 @@ class _TermofuseState extends State<Termofuse> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           termsOfUse = jsonResponse['data']['content'];
           SessionManagerUtil.putString('termsOfUse', termsOfUse);
 
-          print(jsonResponse);
+
           setState(() {
             isLoading = false;
           });

@@ -71,18 +71,15 @@ class _HomecontentState extends State<Homecontent> {
                 MediaQuery.of(context).size.width *
                 0.82222 *
                 0.672298;
-            print(controller.position.pixels /
-                controller.position.maxScrollExtent);
-            print(controller.position.maxScrollExtent);
             ratio = controller.position.pixels /
                 controller.position.maxScrollExtent;
-            print(ratio);
 
-            print(controller.position.pixels);
+
+
             /*closetopcontainer = controller.offset > 10;*/
           }
         } else {
-          print(controller.position.pixels);
+
           if (controller.position.pixels < 0) {
             containerHeight =
                 MediaQuery.of(context).size.width * 0.82222 * 0.672298;
@@ -105,7 +102,7 @@ class _HomecontentState extends State<Homecontent> {
     trendList=_accountProvider.getTrendingList;
     isCardLoading =_accountProvider.getCardList.isEmpty;
     cardList=_accountProvider.getCardList;
-    print('This is the size ${cardList.length}');
+
     return Scaffold(
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
@@ -566,10 +563,10 @@ class _HomecontentState extends State<Homecontent> {
         Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/get-profile';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -578,16 +575,14 @@ class _HomecontentState extends State<Homecontent> {
           },
           body: map);
 
-      print(response.body);
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Map<String, dynamic> map = jsonResponse['data'];
           UserModel model = UserModel.fromJson(map);
           model.points = _accountProvider.getPoints;
           _accountProvider.setUserDetails(model);
-          print('This is ${_accountProvider.getAccessToken}');
           SessionManagerUtil.putString('apiToken', '${model.apiToken}');
           SessionManagerUtil.putString('status', '${model.status}');
           SessionManagerUtil.putInt('id', model.id);
@@ -664,10 +659,9 @@ class _HomecontentState extends State<Homecontent> {
         Provider.of<UserAccountProvider>(context, listen: false);
 
     String url = BaseUrl.baseUrl + '/my-store-load-point';
-    print(url);
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -676,9 +670,9 @@ class _HomecontentState extends State<Homecontent> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           _accountProvider
@@ -752,7 +746,7 @@ class _HomecontentState extends State<Homecontent> {
       closetopcontainer = false;
     });
     String url = BaseUrl.baseUrl + '/trending-store';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -762,9 +756,9 @@ class _HomecontentState extends State<Homecontent> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
@@ -774,7 +768,7 @@ class _HomecontentState extends State<Homecontent> {
           UserAccountProvider _accountProvider =
           Provider.of<UserAccountProvider>(context, listen: false);
           _accountProvider.setTrendsList(trendList);
-          print(jsonResponse);
+
           setState(() {
             isTrendLoading = false;
           });
@@ -857,10 +851,10 @@ class _HomecontentState extends State<Homecontent> {
     UserAccountProvider _accountProvider =
         Provider.of<UserAccountProvider>(context, listen: false);
     String url = BaseUrl.baseUrl + '/show-cards';
-    print(url);
+
     var map = convert.jsonEncode(
         <String, String>{'api_token': _accountProvider.getAccessToken});
-    print(map);
+
     try {
       http.Response response = await http.post(url,
           headers: {
@@ -869,9 +863,9 @@ class _HomecontentState extends State<Homecontent> {
           },
           body: map);
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
@@ -887,7 +881,7 @@ class _HomecontentState extends State<Homecontent> {
                 storeCoverUrl: category.imagePath,
                 points: category.secondry_title));
           }*/
-          print(jsonResponse);
+
           setState(() {
             isCardLoading = false;
           });
@@ -974,7 +968,7 @@ class _HomecontentState extends State<Homecontent> {
 
   loadGetHelp() async {
     String url = BaseUrl.baseUrl + '/get-help';
-    print(url);
+
     try {
       http.Response response = await http.get(
         url,
@@ -984,9 +978,9 @@ class _HomecontentState extends State<Homecontent> {
         },
       );
 
-      print(response.body);
+
       if (response.statusCode == 200) {
-        print('eien');
+
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           String getHelp = jsonResponse['data']['phone_number'].toString();
@@ -995,7 +989,7 @@ class _HomecontentState extends State<Homecontent> {
           _accountProvider.setHelpLine(getHelp);
           SessionManagerUtil.putString('getHelp', getHelp);
 
-          print(jsonResponse);
+
         } else {
           if (jsonResponse.toString().isNotEmpty) {
             final snackBar = SnackBar(
