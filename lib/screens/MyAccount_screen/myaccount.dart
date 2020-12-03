@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:load/helper/base_url.dart';
 import 'package:load/helper/colors.dart';
 import 'package:load/helper/session_manager_util.dart';
@@ -50,12 +50,14 @@ class _MyaccountscreenState extends State<Myaccountscreen> {
   final _formKey = GlobalKey<FormState>();
 
   Future getImage() async {
-    final pickedFile = await ImagePicker.pickImage(
+    final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
-        maxHeight: 1000,
-        maxWidth: 1000);
+        imageQuality: 90,
+        maxHeight: 500,
+        maxWidth: 500);
     _cropImage(pickedFile.path);
   }
+
   _cropImage(filePath) async {
     File croppedImage = await ImageCropper.cropImage(
       sourcePath: filePath,
