@@ -10,7 +10,8 @@ class CardTile extends StatelessWidget {
   final String logoUrl;
   final String coverUrl;
   final String points;
-  final String bgColor;
+  final String bgStartColor;
+  final String bgEndColor;
   final String fontColor;
   final double scale;
   final bool isLastCard;
@@ -18,7 +19,8 @@ class CardTile extends StatelessWidget {
   CardTile(
       {this.onPressed,
       this.name,
-      this.bgColor='0XFFFFFFFF',
+      this.bgStartColor='0XFFFFFFFF',
+      this.bgEndColor='0XFFFFFFFF',
       this.fontColor='0XFF000000',
       this.logoUrl,
       this.coverUrl,
@@ -28,6 +30,8 @@ class CardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Color> _colors = [Color(int.parse(bgStartColor)),Color(int.parse(bgEndColor))];
+    List<double> _stops = [0.0, 1];
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.width * 0.96667 * 0.49840;
     return InkWell(
@@ -47,12 +51,16 @@ class CardTile extends StatelessWidget {
                 height: height,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  color: Color(int.parse(bgColor)),
+                  gradient: LinearGradient(
+                    colors: _colors,
+                    stops: _stops
+                  )
                 ),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(24),
                     child: Stack(
                       children: <Widget>[
+
                         Positioned(
                           right: -4,
                           child: Container(

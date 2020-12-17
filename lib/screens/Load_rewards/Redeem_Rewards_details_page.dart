@@ -184,6 +184,7 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
         var jsonResponse = convert.jsonDecode(response.body);
         if (jsonResponse['success'].toString() == 'true') {
           fetchLoadRewards();
+          fetchLoadHistory();
           setState(() {
             isLoading = false;
           });
@@ -357,6 +358,96 @@ class _RedeemRewardsdetailsState extends State<RedeemRewardsdetails> {
       );
       Scaffold.of(context).showSnackBar(snackBar);
       ;
+    }
+  }
+  Future<void> fetchLoadHistory() async {
+    BuildContext context = _context;
+    UserAccountProvider _accountProvider =
+    Provider.of<UserAccountProvider>(context, listen: false);
+    String url = BaseUrl.baseUrl + '/reward-collect-history';
+
+    var map = convert.jsonEncode(
+        <String, String>{'api_token': _accountProvider.getAccessToken});
+
+    try {
+      http.Response response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          body: map);
+
+
+      if (response.statusCode == 200) {
+
+        var jsonResponse = convert.jsonDecode(response.body);
+        if (jsonResponse['success'].toString() == 'true') {
+          Iterable iterable = jsonResponse['data'];
+
+          List<LoadRewardModel>  list =
+          await iterable.map((en) => LoadRewardModel.fromJson(en)).toList();
+          _accountProvider.setLoadRewardsHistory(list);
+
+
+        } else {
+          if (jsonResponse.toString().isNotEmpty) {
+            final snackBar = SnackBar(
+              content: Text(jsonResponse['message']
+                  .toString()
+                  .replaceAll('{', '')
+                  .replaceAll('}', '')
+                  .replaceAll('[', '')
+                  .replaceAll(']', '')),
+              duration: Duration(seconds: 4),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+
+          }
+        }
+      } else {
+        var jsonResponse = convert.jsonDecode(response.body);
+        if (jsonResponse.toString().isNotEmpty) {
+          final snackBar = SnackBar(
+            content: Text(jsonResponse['message']
+                .toString()
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('[', '')
+                .replaceAll(']', '')),
+            duration: Duration(seconds: 4),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+
+        } else {
+          final snackBar = SnackBar(
+            content: Text('Couldn\'t Connect, please try again'),
+            duration: Duration(seconds: 4),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        }
+
+      }
+    } on TimeoutException catch (e) {
+      final snackBar = SnackBar(
+        content: Text('Timeout Error: ${e.message}'),
+        duration: Duration(seconds: 4),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+
+    } on SocketException catch (e) {
+      final snackBar = SnackBar(
+        content: Text('Socket Error: ${e.message}'),
+        duration: Duration(seconds: 4),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+
+    } on Error catch (e) {
+      final snackBar = SnackBar(
+        content: Text('General Error: ${e}'),
+        duration: Duration(seconds: 4),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+
     }
   }
 }

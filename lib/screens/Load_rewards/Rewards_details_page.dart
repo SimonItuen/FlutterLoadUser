@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:load/helper/base_url.dart';
 import 'package:load/helper/colors.dart';
+import 'package:load/model/cache_reward_model.dart';
 import 'package:load/providers/user_account_provider.dart';
 import 'package:load/screens/Load_rewards/Redeem_Rewards_details_page.dart';
 import 'package:load/widgets/backdrop_bg.dart';
@@ -16,14 +17,18 @@ import 'package:http/http.dart' as http;
 class Rewardsdetails extends StatefulWidget {
   final String title;
 
-  Rewardsdetails({this.title});
+  /*final List<CacheRewardModel> cacheList;*/
+  final String storeId;
+
+  Rewardsdetails({this.title, /*this.cacheList,*/ this.storeId});
 
   @override
   _RewardsdetailsState createState() => _RewardsdetailsState();
 }
 
 class _RewardsdetailsState extends State<Rewardsdetails> {
-  PageController controller ;
+  PageController controller;
+
   int _currentPage = 0;
   bool isLoading = false;
   BuildContext _context;
@@ -34,13 +39,22 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
-    controller =
-        PageController(initialPage: (Provider.of<UserAccountProvider>(context, listen: false).loadRewardItemsList.length/2).floor(), viewportFraction: 0.88);
-    _currentPage = (Provider.of<UserAccountProvider>(context, listen: false).loadRewardItemsList.length/2).floor();
+    controller = PageController(
+        initialPage: (Provider.of<UserAccountProvider>(context, listen: false)
+                    .loadRewardItemsList
+                    .length /
+                2)
+            .floor(),
+        viewportFraction: 0.88);
+    _currentPage = (Provider.of<UserAccountProvider>(context, listen: false)
+                .loadRewardItemsList
+                .length /
+            2)
+        .floor();
+    print(_currentPage);
   }
 
   @override
@@ -94,26 +108,26 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
                       children: [
                         Expanded(
                           child:
-                          _accountProvider.getLoadRewardItemsList.isNotEmpty
-                              ? PageView.builder(
-                              onPageChanged: _onPageChanged,
-                              controller: controller,
-                              itemCount: _accountProvider
-                                  .getLoadRewardItemsList.length,
-                              itemBuilder: (ctx, i) {
-                                return LoadRewardItemTile(
-                                  coverUrl: _accountProvider
-                                      .getLoadRewardItemsList[i]
-                                      .rewardImage
-                                      .toString(),
-                                );
-                              })
-                              : Center(
-                            child: Text('Not available',
-                                style: TextStyle(
-                                    fontFamily: 'OpenSans-Semibold',
-                                    color: Colors.black)),
-                          ),
+                              _accountProvider.getLoadRewardItemsList.isNotEmpty
+                                  ? PageView.builder(
+                                      onPageChanged: _onPageChanged,
+                                      controller: controller,
+                                      itemCount: _accountProvider
+                                          .getLoadRewardItemsList.length,
+                                      itemBuilder: (ctx, i) {
+                                        return LoadRewardItemTile(
+                                          coverUrl: _accountProvider
+                                              .getLoadRewardItemsList[i]
+                                              .rewardImage
+                                              .toString(),
+                                        );
+                                      })
+                                  : Center(
+                                      child: Text('Not available',
+                                          style: TextStyle(
+                                              fontFamily: 'OpenSans-Semibold',
+                                              color: Colors.black)),
+                                    ),
                         ),
                         Container(
                           padding: EdgeInsets.all(16),
@@ -196,20 +210,41 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
                                                   ),
                                                   FlatButton(
                                                     onPressed: () async {
-                                                      Navigator.of(context).pop();
-                                                      Navigator
-                                                          .pushReplacement(
-                                                              context,
-                                                              FadedRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          RedeemRewardsdetails(
-                                                                            title:
-                                                                                widget.title,
-                                                                            imgUrl:
-                                                                                _accountProvider.getLoadRewardItemsList[_currentPage].rewardImage,
-                                                                            id: _accountProvider.getLoadRewardItemsList[_currentPage].rewardId,
-                                                                          )));
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      /*print('This is the chat list${widget.cacheList.length}');*/
+                                                      /*for(int i =0; i< widget.cacheList.length; i++){
+                                                        print(widget.cacheList.length);
+                                                        if(widget.cacheList[i].storeId==widget.storeId){
+                                                          */ /*print('This is it, $i');*/ /*
+                                                         widget.cacheList.insert(i, CacheRewardModel(storeId: widget.storeId, rewardId: _accountProvider.getLoadRewardItemsList[_currentPage].rewardId, imgUrl:_accountProvider.getLoadRewardItemsList[_currentPage].rewardImage ));
+                                                         print(widget.cacheList[i].rewardId);
+                                                          break;
+
+                                                        }
+                                                      }*/
+                                                          Navigator.pushReplacement(
+                                                          context,
+                                                          FadedRoute(
+                                                              builder: (context) =>
+                                                                  RedeemRewardsdetails(
+                                                                    title: widget
+                                                                        .title,
+                                                                    imgUrl: _accountProvider
+                                                                        .getLoadRewardItemsList[
+                                                                    _currentPage]
+                                                                        .rewardImage,
+                                                                    id: _accountProvider
+                                                                        .getLoadRewardItemsList[
+                                                                    _currentPage]
+                                                                        .rewardId,
+                                                                  )));
+                                                      await selectReward(_accountProvider
+                                                          .getLoadRewardItemsList[
+                                                              _currentPage]
+                                                          .rewardId
+                                                          .toString(), _context);
+
                                                     },
                                                     child: Text(
                                                       "YES",
@@ -258,6 +293,7 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
     );
   }
 
+/*
   getReward(String rewardId) async {
     setState(() {
       isLoading = true;
@@ -300,6 +336,112 @@ class _RewardsdetailsState extends State<Rewardsdetails> {
           );
           await Scaffold.of(context).showSnackBar(snackBar).closed;
           Navigator.of(context).pop();
+        } else {
+          if (jsonResponse.toString().isNotEmpty) {
+            final snackBar = SnackBar(
+              content: Text(jsonResponse['message']
+                  .toString()
+                  .replaceAll('{', '')
+                  .replaceAll('}', '')
+                  .replaceAll('[', '')
+                  .replaceAll(']', '')),
+              duration: Duration(seconds: 4),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+            setState(() {
+              isLoading = false;
+            });
+          }
+        }
+      } else {
+        var jsonResponse = convert.jsonDecode(response.body);
+        if (jsonResponse.toString().isNotEmpty) {
+          final snackBar = SnackBar(
+            content: Text(jsonResponse['message']
+                .toString()
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('[', '')
+                .replaceAll(']', '')),
+            duration: Duration(seconds: 4),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          setState(() {
+            isLoading = false;
+          });
+        } else {
+          final snackBar = SnackBar(
+            content: Text('Couldn\'t Connect, please try again'),
+            duration: Duration(seconds: 4),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    } on TimeoutException catch (e) {
+      final snackBar = SnackBar(
+        content: Text('Timeout Error: ${e.message}'),
+        duration: Duration(seconds: 4),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    } on SocketException catch (e) {
+      final snackBar = SnackBar(
+        content: Text('Socket Error: ${e.message}'),
+        duration: Duration(seconds: 4),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    } on Error catch (e) {
+      final snackBar = SnackBar(
+        content: Text('General Error: ${e}'),
+        duration: Duration(seconds: 4),
+      );
+      print('General Error: ${e}');
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
+*/
+
+  Future<void> selectReward(String rewardId, BuildContext context) async {
+    setState(() {
+      isLoading = true;
+    });
+    /*BuildContext context = _context;*/
+    UserAccountProvider _accountProvider =
+        Provider.of<UserAccountProvider>(context, listen: false);
+
+    String url = BaseUrl.baseUrl + '/select-reward-banner';
+
+    var map = convert.jsonEncode(<String, String>{
+      'api_token': _accountProvider.getAccessToken,
+      'reward_banner_id': rewardId
+    });
+
+    try {
+      http.Response response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          body: map);
+
+      if (response.statusCode == 200) {
+        var jsonResponse = convert.jsonDecode(response.body);
+        if (jsonResponse['success'].toString() == 'true') {
+          setState(() {
+            isLoading = false;
+          });
+          final snackBar = SnackBar(
+            content: Text(jsonResponse['message']
+                .toString()
+                .replaceAll('{', '')
+                .replaceAll('}', '')
+                .replaceAll('[', '')
+                .replaceAll(']', '')),
+            duration: Duration(seconds: 1),
+          );
+          await Scaffold.of(context).showSnackBar(snackBar).closed;
         } else {
           if (jsonResponse.toString().isNotEmpty) {
             final snackBar = SnackBar(

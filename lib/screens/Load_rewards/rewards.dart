@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:load/helper/base_url.dart';
 import 'package:load/helper/colors.dart';
 import 'package:load/helper/session_manager_util.dart';
+import 'package:load/model/cache_reward_model.dart';
 import 'package:load/providers/user_account_provider.dart';
+import 'package:load/screens/Load_rewards/Redeem_Rewards_details_page.dart';
 import 'package:load/screens/Load_rewards/Rewards_details_page.dart';
 import 'package:load/screens/MyRewards/points.dart';
 import 'package:load/widgets/load_reward_tile.dart';
@@ -16,7 +18,8 @@ import 'package:provider/provider.dart';
 
 class Rewards extends StatefulWidget {
   final bool isLoading;
-  Rewards(this.isLoading);
+/*  final List<CacheRewardModel> cacheList;*/
+  Rewards(this.isLoading, /*this.cacheList*/);
   @override
   _RewardsState createState() => _RewardsState();
 }
@@ -72,20 +75,91 @@ class _RewardsState extends State<Rewards> {
                               Provider.of<UserAccountProvider>(context,
                                       listen: false)
                                   .setLoadRewardList(list[i].list);
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Rewardsdetails(
-                                          title:
-                                              list[i].rewardName.toString())));
-                              /*Navigator.of(context).push(
+                              if(list[i].list.length ==1){
+                                Navigator
+                                    .push(
+                                    context,
+                                    FadedRoute(
+                                        builder:
+                                            (context) =>
+                                            RedeemRewardsdetails(
+                                              title:
+                                              list[i].rewardName.toString(),
+                                              imgUrl:list[i].list[0].rewardImage.toString(),
+                                              id: list[i].list[0].rewardId.toString(),
+                                            )));
+                              }else{
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Rewardsdetails(
+                                                title:
+                                                list[i].rewardName.toString(),
+                                                /*    cacheList: widget.cacheList,*/
+                                                storeId: list[i].id)));
+                              }
+                              /*int flag=-1;
+                              String prev = '-1';
+                              String imgUrl;
+                              for(int j =0; j< widget.cacheList.length; j++){
+                                print(j);
+                                if(widget.cacheList[j].storeId==list[i].id){
+                                  print('This is the value, ${widget.cacheList[j].rewardId}');
+                                  if(widget.cacheList[j].rewardId!='-1'){
+                                    prev=widget.cacheList[j].rewardId;
+                                    imgUrl=widget.cacheList[j].imgUrl;
+                                    flag=0;
+                                    print(prev);
+                                  }
+                                  break;
+
+                                }
+                              }
+*/
+                              /*int index =widget.cacheList.indexOf(CacheRewardModel(storeId:list[i].id,rewardId:'-1',);
+                              *//*widget.cacheList.insert(index, list[i].l);*/
+                              /*list[i].list[0].*/
+                              /*if(flag==0) {
+                                print('i Came here');
+                                Navigator
+                                    .push(
+                                    context,
+                                    FadedRoute(
+                                        builder:
+                                            (context) =>
+                                            RedeemRewardsdetails(
+                                              title:
+                                              list[i].rewardName.toString(),
+                                              imgUrl:imgUrl,
+                                              id: prev,
+                                            )));
+                                *//*Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false, // set to false
+                                pageBuilder: (_, __, ___) => Points(pointDetail: list[i].rewardName, message: 'You have successfully redeemed', type: 'REWARD',),
+                              ),
+                            );*//*
+                                fetchLoadRewards();
+                              }else{*/
+                                /*await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Rewardsdetails(
+                                                title:
+                                                list[i].rewardName.toString(),
+                                            *//*    cacheList: widget.cacheList,*//*
+                                                storeId: list[i].id)));*/
+                                /*Navigator.of(context).push(
                               PageRouteBuilder(
                                 opaque: false, // set to false
                                 pageBuilder: (_, __, ___) => Points(pointDetail: list[i].rewardName, message: 'You have successfully redeemed', type: 'REWARD',),
                               ),
                             );*/
-                              fetchLoadRewards();
-                            },
+                                fetchLoadRewards();
+                              }
+                            /*},*/
                           );
                         },
                       ),
@@ -121,7 +195,15 @@ class _RewardsState extends State<Rewards> {
 
           list =
               await iterable.map((en) => LoadRewardModel.fromJson(en)).toList();
+
           _accountProvider.setLoadRewards(list);
+          /*if(list.length!=widget.cacheList.length) {
+            widget.cacheList.clear();
+            for (LoadRewardModel m in list) {
+              widget.cacheList.add(
+                  CacheRewardModel(storeId: m.id, rewardId: '-1'));
+            }
+          }*/
           await getPoints();
 
 

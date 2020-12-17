@@ -459,89 +459,94 @@ class _HomecontentState extends State<Homecontent> {
                                           }
                                           return true;
                                         },
-                                        child: ListView.builder(
-                                            padding: EdgeInsets.only(
-                                                bottom: 20, top: 20),
-                                            controller: controller,
-                                            physics: BouncingScrollPhysics(),
-                                            itemCount: cardList.length,
-                                            itemBuilder:
-                                                (BuildContext context, int i) {
-                                              double scale = 1.0;
-                                              if (topcontainer > 1) {
-                                                scale = i + 1 - topcontainer;
+                                        child: Visibility(
+                                          visible: !isTrendLoading,
+                                          child: ListView.builder(
+                                              padding: EdgeInsets.only(
+                                                  bottom: 20, top: 20),
+                                              controller: controller,
+                                              physics: BouncingScrollPhysics(),
+                                              itemCount: cardList.length,
+                                              itemBuilder:
+                                                  (BuildContext context, int i) {
+                                                double scale = 1.0;
+                                                if (topcontainer > 1) {
+                                                  scale = i + 1 - topcontainer;
 
-                                                if (scale < 0) {
-                                                  scale = 0;
-                                                } else if (scale > 1) {
-                                                  scale = 1;
+                                                  if (scale < 0) {
+                                                    scale = 0;
+                                                  } else if (scale > 1) {
+                                                    scale = 1;
+                                                  }
+                                                  /*print('scale $scale');*/
                                                 }
-                                                /*print('scale $scale');*/
-                                              }
 
-                                              if (i == 0 && closetopcontainer) {
-                                                scale = i + 1.12 - topcontainer;
-                                                if (scale < 0) {
-                                                  scale = 0;
-                                                } else if (scale > 1) {
-                                                  scale = 1;
+                                                if (i == 0 && closetopcontainer) {
+                                                  scale = i + 1.12 - topcontainer;
+                                                  if (scale < 0) {
+                                                    scale = 0;
+                                                  } else if (scale > 1) {
+                                                    scale = 1;
+                                                  }
+                                                  return CardTile(
+                                                    bgStartColor: cardList[i].storeCardBgStartColor,
+                                                    bgEndColor:cardList[i].storeCardBgEndColor ,
+                                                    fontColor: cardList[i].storeFontColor,
+                                                    scale: scale,
+                                                    logoUrl:
+                                                        cardList[i].storeLogoUrl,
+                                                    coverUrl:
+                                                        cardList[i].cardImageUrl,
+                                                    points: cardList[i].points,
+                                                    name: cardList[i].storeName,
+                                                    isLastCard: i ==
+                                                        cardList.length -
+                                                            1 /*cardList.length==1*/,
+                                                    onPressed: () async {
+                                                      Provider.of<UserAccountProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .setStoreId(cardList[i]
+                                                              .storeId);
+                                                      await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  Resturantdetails()));
+                                                      refresh();
+                                                    },
+                                                  );
+                                                } else {
+                                                  return CardTile(
+                                                    bgStartColor: cardList[i].storeCardBgStartColor,
+                                                    bgEndColor:cardList[i].storeCardBgEndColor,
+                                                    fontColor: cardList[i].storeFontColor,
+                                                    scale: scale,
+                                                    logoUrl:
+                                                        cardList[i].storeLogoUrl,
+                                                    coverUrl:
+                                                        cardList[i].cardImageUrl,
+                                                    points: cardList[i].points,
+                                                    name: cardList[i].storeName,
+                                                    isLastCard:
+                                                        i == cardList.length - 1,
+                                                    onPressed: () async {
+                                                      Provider.of<UserAccountProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .setStoreId(cardList[i]
+                                                              .storeId);
+                                                      await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  Resturantdetails()));
+                                                      refresh();
+                                                    },
+                                                  );
                                                 }
-                                                return CardTile(
-                                                  bgColor: cardList[i].storeCardBgColor,
-                                                  fontColor: cardList[i].storeFontColor,
-                                                  scale: scale,
-                                                  logoUrl:
-                                                      cardList[i].storeLogoUrl,
-                                                  coverUrl:
-                                                      cardList[i].cardImageUrl,
-                                                  points: cardList[i].points,
-                                                  name: cardList[i].storeName,
-                                                  isLastCard: i ==
-                                                      cardList.length -
-                                                          1 /*cardList.length==1*/,
-                                                  onPressed: () async {
-                                                    Provider.of<UserAccountProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .setStoreId(cardList[i]
-                                                            .storeId);
-                                                    await Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                Resturantdetails()));
-                                                    refresh();
-                                                  },
-                                                );
-                                              } else {
-                                                return CardTile(
-                                                  bgColor: cardList[i].storeCardBgColor,
-                                                  fontColor: cardList[i].storeFontColor,
-                                                  scale: scale,
-                                                  logoUrl:
-                                                      cardList[i].storeLogoUrl,
-                                                  coverUrl:
-                                                      cardList[i].cardImageUrl,
-                                                  points: cardList[i].points,
-                                                  name: cardList[i].storeName,
-                                                  isLastCard:
-                                                      i == cardList.length - 1,
-                                                  onPressed: () async {
-                                                    Provider.of<UserAccountProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .setStoreId(cardList[i]
-                                                            .storeId);
-                                                    await Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                Resturantdetails()));
-                                                    refresh();
-                                                  },
-                                                );
-                                              }
-                                            }),
+                                              }),
+                                        ),
                                       ),
                           )
                         ],
@@ -867,9 +872,9 @@ class _HomecontentState extends State<Homecontent> {
       if (response.statusCode == 200) {
 
         var jsonResponse = convert.jsonDecode(response.body);
+        print(jsonResponse['data']);
         if (jsonResponse['success'].toString() == 'true') {
           Iterable iterable = jsonResponse['data'];
-
           cardList =
               await iterable.map((en) => CardModel.fromJson(en)).toList();
           _accountProvider.setCardsList(cardList);

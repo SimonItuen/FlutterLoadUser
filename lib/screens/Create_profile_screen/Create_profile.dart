@@ -85,9 +85,7 @@ class _CreateprofileState extends State<Createprofile> {
   Future getImage() async {
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
-        imageQuality: 90,
-        maxHeight: 500,
-        maxWidth: 500);
+    );
     _cropImage(pickedFile.path);
   }
 

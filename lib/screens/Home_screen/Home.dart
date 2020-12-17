@@ -929,13 +929,13 @@ class _MyDrawerState extends State<MyDrawer> {
                   Provider.of<UserAccountProvider>(context, listen: false)
                       .setStoreId('-1');
                   Provider.of<UserAccountProvider>(context, listen: false)
-                      .setTrendsList(List<TrendingModel>());
+                      .getTrendingList.clear();
                   Provider.of<UserAccountProvider>(context, listen: false)
-                      .setCardsList(List<CardModel>());
+                      .getCardList.clear();
                   Provider.of<UserAccountProvider>(context, listen: false)
-                      .setLoadRewardsHistory(List<LoadRewardModel>());
+                      .getLoadRewardHistoryList.clear();
                   Provider.of<UserAccountProvider>(context, listen: false)
-                      .setLoadRewards(List<LoadRewardModel>());
+                      .getLoadRewardList.clear();
                   Provider.of<UserAccountProvider>(context, listen: false)
                       .setOpenRestaurant(false);
                   widget.onTap(context, 0);

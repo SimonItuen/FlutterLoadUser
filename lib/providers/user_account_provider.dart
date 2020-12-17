@@ -20,6 +20,8 @@ class UserAccountProvider with ChangeNotifier {
   List<TrendingModel> trendList = List<TrendingModel>();
   List<CardModel> cardList = List<CardModel>();
 
+
+
   /*ServiceModel _serviceModel  = ServiceModel();
   WalletModel _walletModel= WalletModel();
   String tempEmail= '';
